@@ -1,0 +1,58 @@
+
+    <table class="table display nowrap table-striped table-bordered scroll-horizontal-vertical" th:fragment="table">
+        <thead id="table_body">
+          <tr>
+            <th scope="col" >N°</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Horario</th>
+            <th scope="col">Personal</th>
+            <th scope="col">Dias</th>
+            <th scope="col">Hr.Comienzo</th>
+            <th scope="col">Hr.Fin</th>
+            <th scope="col">Gestion</th>
+            <th scope="col" class="text-center"><i class="fa fa-cog"></i></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="prog, index : ${programas}" th:if="${prog.est_programa != 'X'}">
+            <td scope="row">
+              <b th:text="${index.index + 1}"  ></b>
+            </td>
+            <td th:text="${prog.desc_programa}" ></td>
+            <td th:text="${prog.horario.desc_horario}" ></td>
+            <td th:text="${prog.persona.nombre+' '+prog.persona.ap_paterno+' '+prog.persona.ap_materno}" ></td>
+           
+            <td>
+              <th:block th:each="dias : ${prog.dias_transmision}" >
+                <span style="width: 100%;" class="badge badge-dark mt-1" th:text="${dias.desc_dias_transmision}" ></span> <br>
+              </th:block>
+            </td>
+            <td th:text="${prog.hr_empiezo_pograma}" ></td>
+            <td th:text="${prog.hr_fin_programa}" ></td>
+            <td th:text="${prog.ano_programa}" ></td>
+            <td>
+              <div class="btn-group btn-group-justified btn-round">
+                <a
+                style="width: 100%"
+                href="#FormularioPrograma"
+                th:attr="onclick='cargarModFormulario(\'' + ${prog.id_programa} + '\')'"
+                class="btn btn-blue btn-round mb-0"
+                >⚙️</a
+              >
+              <a
+                style="width: 100%"
+                th:attr="onclick='EliminarRegistro(\'' + ${prog.id_programa} + '\' , \'' + ${prog.desc_programa} + '\')'"
+                class="btn btn-danger btn-round mb-0"
+                >🗑️</a
+              >
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <script>
+        $(".scroll-horizontal-vertical").DataTable({
+            "scrollY": 350,
+            "scrollX": false
+          });
+      </script>

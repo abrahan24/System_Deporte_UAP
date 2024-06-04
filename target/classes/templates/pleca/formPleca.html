@@ -1,0 +1,320 @@
+<section id="basic-form-layouts">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card box-shadow-3">
+          <div class="card-header">
+            <div class="card-title-wrap bar-success">
+              <h4 th:if="${pleca.id_pleca == null}" class="card-title" id="basic-layout-form">Nuevo Registro - Pleca</h4>
+              <h4 th:if="${pleca.id_pleca != null}" class="card-title" id="basic-layout-form">Actualizar Registro - Pleca</h4>
+            </div>
+            <p class="mb-0">El registro corresponde a la información detallada de la Pleca</p>
+          </div>
+          <div class="card-body">
+            <div class="px-3">
+
+                <form id="form1" action="/RegistroPlecaF" class="form" method="post" novalidate>
+            
+                  <input type="hidden" th:field="${pleca.id_pleca}">
+                  <div class="row">
+                      <div class="col-lg-8 col-md-12">
+                          <h4 class="form-section"><i class="icon-notebook"></i> Datos Principales</h4>
+                      </div>
+                      <div class="col-lg-4 col-md-12">
+                          <h4 class="form-section"><i class="icon-book-open"></i> Detalles de la Pleca</h4>
+                      </div>
+                  </div>
+                
+                <div class="row">
+                  <div class="col-lg-8 col-md-12">
+                    <div class="form-group">
+                      <label>Tema de la Pleca</label>
+                      <div class="controls">
+                          <input th:field="${pleca.tema_pleca}" type="text" name="text" class="form-control" required data-validation-required-message="Necesita ingresar los datos">
+                      </div>                      
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-12">
+                    <div class="form-group">
+                      <label>Del Programa:</label>
+                      <button id="myButton" type="button" class="badge badge-pill badge-dark" data-toggle="popover"
+                        th:data-content="${'<b> Los Programas que se muestran son de la Gestión actual ' + ano_actual +'</b>'}"
+                        data-original-title="Ayuda" data-html="true" data-trigger="focus">
+                        ❔
+                      </button>
+                      <div class="controls">
+                        <select style="width: 100%;" th:field="${pleca.programa}" id="select88" required class="selectB form-control">
+                          <option value="" selected>Seleccione...</option>
+                          <th:block th:each="pro : ${programas}" th:if="${pro.est_programa == 'A' && pro.ano_programa == ano_actual}">
+                            <option th:if="${pleca.programa != null}" th:value="${pro.id_programa}" th:text="${pro.desc_programa}" selected></option>
+                            <option th:if="${pleca.programa == null}" th:value="${pro.id_programa}" th:text="${pro.desc_programa}" ></option>
+                          </th:block>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-8 col-md-12">
+                    <div class="form-group">
+                      <label>Presentadores</label>
+                      <button id="myButton1" type="button" class="badge badge-pill badge-dark" data-toggle="popover" 
+                        data-content="<b>Puede Agregar a más de un Presentador</b>" data-original-title="Ayuda" data-html="true" data-trigger="focus">
+                        ❔
+                      </button>
+                      <div class="controls">
+                          <select style="width: 100%;" th:field="${pleca.personas}" id="select1" required class="selectM form-control" multiple="multiple">
+                            <th:block th:each="p : ${personas}" th:if="${p.estado_persona == 'A'}">
+                              <option th:value="${p.id_persona}" th:text="${p.nombre+' '+p.ap_paterno+' '+p.ap_materno}"></option>
+                            </th:block>
+                          </select>
+                      </div>                      
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-12">
+                        <div class="form-group">
+                          <label>Fecha de la Pleca</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                <span class="fa fa-calendar-o"></span>
+                              </span>
+                            </div>
+                            <input th:field="${pleca.f_pleca}"  class="form-control" type="date" required>
+                          </div>                                    
+                      </div>
+                      <!--  -->
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-8 col-md-12">
+                    <div class="form-group">
+                      <label>Nombre de los Invitados</label>
+                      <button id="myButton2" type="button" class="badge badge-pill badge-dark" data-toggle="popover" 
+                        data-content="<b>Seguir la Redacción</b> <hr> <b> Ejemplo </b> <br> - Nombre del 1er Invitado.   <br>  - Nombre del 2do Invitado  <br>  - Nombre del 3er Invitado" data-original-title="Ayuda" data-html="true" data-trigger="focus">
+                        ❔
+                      </button>
+                      <div class="controls">
+                        <textarea placeholder="- Nombres de los Invitados." cols="30" rows="5" th:field="${pleca.invitados_pleca}" type="text" name="text" class="form-control" required data-validation-required-message="Necesita ingresar los datos"></textarea>
+                      </div>                     
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-12">
+
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12">
+                          <div class="form-group">
+                              <label>Titulo para la Transmision</label>
+                              <div class="controls">
+                                  <input th:field="${pleca.titulo_transmicion_pleca}" type="text" name="text" class="form-control" required data-validation-required-message="Necesita ingresar los datos">
+                              </div>                      
+                          </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="form-group">
+                          <label>URL del Video</label>
+                          <button id="myButton3" type="button" class="badge badge-pill badge-dark" data-toggle="popover" data-content="<b>Las URLs deben contener <br> 'http://' o 'https://'</b> <hr> <b> Ejemplo Url facebook. </b> <h6> https://fb.watch/mBUDI6FsaC/ </h6> <b>Ejemplo Url Youtube.</b> <h6>https://www.youtube.com/watch?v=6e4zayYH-VQ </h6> " data-original-title="Ayuda" data-html="true" data-trigger="focus">
+                            ❔
+                          </button>
+                          <div class="controls">
+                            <input  placeholder="https://www.youtube.com/watch?v=JjKY_HNT5HM" th:field="${pleca.url_video_pleca}" type="url"
+                              name="text" class="form-control" required data-validation-required-message="Necesita ingresar los datos">
+                              <br>
+                              <div id="previewContainer"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-10 col-md-12">
+                    <button th:if="${pleca.id_pleca == null}" style="width: 100%;" type="submit" class="btn btn-success py-2">
+                      <b>GUARDAR</b>
+                    </button>
+                    <button th:if="${pleca.id_pleca != null}" style="width: 100%;" type="submit" class="btn btn-info py-2">
+                      <b>ACTUALIZAR INFORMACIÓN</b>
+                    </button>
+                  </div>
+                  <div class="col-lg-2 col-md-12">
+                    <a th:if="${pleca.id_pleca == null}" style="width: 100%;" href="#table_body" class="btn btn-warning py-2">
+                      <b>Ver Lista</b>
+                    </a>
+                    <a th:if="${pleca.id_pleca != null}" href="/admin/RegistroPlecaA" style="width: 100%;" type="submit" class="btn btn-danger py-2">
+                      <b>CANCELAR</b>
+                    </a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    $(document).ready(function () {
+      $('.selectM').select2();
+      $('.selectB').select2();
+      mostrarVistaPrevia();
+      // Captura el evento de cambio en el campo de entrada
+      function mostrarVistaPrevia() {
+        var url = $("#url_video_pleca").val();
+        if (url.trim() !== "") {
+          loadPreview(url);
+        } else {
+          // Limpiar la previsualización si la URL está vacía
+          document.getElementById("previewContainer").innerHTML = "";
+        }
+      }
+      $("#url_input").on("input", function () {
+        mostrarVistaPrevia();
+      });
+      // Captura el evento de cambio en el campo de entrada
+      document.getElementById("url_video_pleca").addEventListener("change", function () {
+        var url = this.value.trim();
+        if (url !== "") {
+          loadPreview(url);
+        } else {
+          // Limpiar la previsualización si la URL está vacía
+          document.getElementById("previewContainer").innerHTML = "";
+        }
+      });
+
+      function loadPreview(url) {
+        // Si la URL es de YouTube
+        if (url.includes("youtube.com") || url.includes("youtu.be")) {
+          var videoId = getYouTubeVideoId(url);
+          if (videoId) {
+            document.getElementById("previewContainer").innerHTML = `<iframe width="100%" height="300" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+          }
+        }
+        // Si la URL es de Facebook
+        else if (url.includes("facebook.com")) {
+          embedUrl = "https://www.facebook.com/plugins/video.php?href=" + encodeURIComponent(url); // Construir la URL del video compatible con el iframe
+          document.getElementById("previewContainer").innerHTML = `<iframe src="${embedUrl}" width="100%" height="300" frameborder="0" allowfullscreen></iframe>`;
+        }
+        // Si la URL no es compatible
+        else {
+          document.getElementById("previewContainer").innerHTML = "<p>No se pudo cargar la previsualización del video.</p>";
+        }
+      }
+
+      // Función para obtener el ID del video de YouTube desde la URL
+      function getYouTubeVideoId(url) {
+        var videoId;
+        // Patrón para buscar el ID del video de YouTube
+        var pattern = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        var match = url.match(pattern);
+        if (match && match[1]) {
+          videoId = match[1];
+        }
+        return videoId;
+      }
+      $('#myButton').click(function () {
+        // Obtiene el contenido del atributo data-content del botón
+        var content = $(this).data('content');
+
+        // Despliega la alerta con el contenido obtenido
+        Swal.fire({
+          title: "Ayuda",
+          html: content,
+          icon: "info"
+        });
+      });
+      $('#myButton1').click(function () {
+        // Obtiene el contenido del atributo data-content del botón
+        var content = $(this).data('content');
+
+        // Despliega la alerta con el contenido obtenido
+        Swal.fire({
+          title: "Ayuda",
+          html: content,
+          icon: "info"
+        });
+      });
+      $('#myButton2').click(function () {
+        // Obtiene el contenido del atributo data-content del botón
+        var content = $(this).data('content');
+
+        // Despliega la alerta con el contenido obtenido
+        Swal.fire({
+          title: "Ayuda",
+          html: content,
+          icon: "info"
+        });
+      });
+      $('#myButton3').click(function () {
+        // Obtiene el contenido del atributo data-content del botón
+        var content = $(this).data('content');
+
+        // Despliega la alerta con el contenido obtenido
+        Swal.fire({
+          title: "Ayuda",
+          html: content,
+          icon: "info"
+        });
+      });
+      $('#form1').submit(function (event) {
+        event.preventDefault();
+        var form = document.getElementById("form1");
+        var action = form.action;
+        // Validar que los campos no ocultos no estén vacíos
+        var camposNoOcultos = $(this).find('input[type!="hidden"], select');
+        var camposVacios = camposNoOcultos.filter(function () {
+          return !$(this).val();
+        });
+
+        if (camposVacios.length > 0) {
+          // Mostrar un mensaje de error si hay campos vacíos
+          Swal.fire({
+            title: 'Error!',
+            text: 'Por favor, complete todos los campos obligatorios.',
+            icon: 'error',
+            confirmButtonText: 'Entendido'
+          });
+          return;
+        }
+        var formData = $(this).serialize();
+
+        $.ajax({
+          type: 'POST',
+          url: $(this).attr('action'),
+          data: formData,
+          contentType: 'application/x-www-form-urlencoded',
+          success: function (response) {
+            var mensaje = response;
+            if (mensaje == "Registrar") {
+              Swal.fire({
+                title: 'Registro Exitoso!',
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+              })
+            } else {
+              Swal.fire({
+                title: 'Actualización Exitosa!',
+                icon: "success",
+                showConfirmButton: false,
+                timer: 1500
+              })
+            }
+            cargarFormulario();
+            cargarTabla();
+
+          },
+          error: function (xhr, status, error) {
+            toastr.error('Ha ocurrido un error. Por favor, intenta nuevamente.' + xhr, status, error);
+            console.error(error);
+            // Manejo de errores
+          }
+        });
+
+      });
+    });
+  </script>
+  <!-- <script src="https://unpkg.com/oembed-api/lib/oembed-api.js"></script> -->
+

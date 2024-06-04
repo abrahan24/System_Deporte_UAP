@@ -1,0 +1,54 @@
+<table
+  class="table display nowrap table-striped table-bordered scroll-horizontal-vertical">
+  <thead id="table_body">
+    <tr>
+      <th scope="col">N°</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Ap_paterno</th>
+      <th scope="col">Ap_materno</th>
+      <th scope="col">C.I.</th>
+      <th scope="col">Edad</th>
+      <th scope="col">Celular</th>
+      <th scope="col">Genero</th>
+      <th scope="col" class="text-center"><i class="fa fa-cog"></i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="per, index : ${personas}" th:if="${per.estado_persona != 'X'}">
+      <td scope="row">
+        <b th:text="${index.index + 1}"></b>
+      </td>
+      <td th:text="${per.nombre}"></td>
+      <td th:text="${per.ap_paterno}"></td>
+      <td th:text="${per.ap_materno}"></td>
+      <td th:text="${per.ci}"></td>
+      <td th:text="${per.edad}"></td>
+      <td th:text="${per.num_celular}"></td>
+      <td th:text="${per.genero.abreviatura_genero}"></td>
+      <td>
+        <div class="btn-group btn-group-justified btn-round">
+          <a
+            style="width: 100%"
+            href="#FormularioPersona"
+            th:attr="onclick='cargarModFormulario(\'' + ${per.id_persona} + '\')'"
+            class="btn btn-blue btn-round mb-0"
+            >⚙️</a
+          >
+          <a
+            style="width: 100%"
+            th:attr="onclick='EliminarRegistro(\'' + ${per.id_persona} + '\' , \'' + ${per.nombre} + '\')'"
+            class="btn btn-danger btn-round mb-0"
+            >🗑️</a
+          >
+        </div>
+      </td>
+    </tr>
+  </tbody>
+
+</table>
+<script>
+  $(".scroll-horizontal-vertical").DataTable({
+      "scrollY": 350,
+      "scrollX": false
+    });
+</script>
